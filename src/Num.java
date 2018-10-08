@@ -520,6 +520,9 @@ public class Num implements Comparable<Num> {
     }
 
 
+
+
+
     // Evaluate an expression in postfix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
