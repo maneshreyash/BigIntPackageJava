@@ -1,9 +1,18 @@
 import java.util.Stack;
 
+/**
+ * This class provides a custom implementation for features of the BigInteger class.
+ * All the operations like +, -, ?, *, % and all the basic operations provided by a basic
+ * calculator have been implemented.
+ * All these operations can be performed in any provided @base
+ *
+ *
+ * The members of this project are Ketki Mahajan, Ameya Kasar, Sunny Bangale, Shreyash Mane
+ */
 
 public class Num implements Comparable<Num> {
 
-    static long defaultBase =10;  // Change as needed
+    static long defaultBase = 1000000000;  // Change as needed
     long base = defaultBase;  // Change as needed
     long[] arr;  // array to store arbitrarily large integers
     boolean isNegative;  // boolean flag to represent negative numbers
@@ -41,8 +50,9 @@ public class Num implements Comparable<Num> {
      * @param newBase the base which should be used to create a new object
      */
     public Num(String s, long newBase) {
-        this.arr= new long[s.length()];
+        this.arr = new long[s.length()];
         int i = 0;
+
         if(s.charAt(0) == '-') {
             this.isNegative = true;
             for(int k = s.length()-1; k > 0; k--){
@@ -56,11 +66,12 @@ public class Num implements Comparable<Num> {
                 i++;
             }
         }
+
         base = 10;
-        this.len=this.arr.length;
-        Num x= this.convertBase((int)newBase);
-        this.arr=x.arr;
-        this.len=x.len;
+        this.len = this.arr.length;
+        Num x = this.convertBase((int)newBase);
+        this.arr = x.arr;
+        this.len = x.len;
         base = newBase;
     }
 
@@ -304,7 +315,7 @@ public class Num implements Comparable<Num> {
         if (n < 0) {
             return zero;
         }
-        if (n == 0 && a.compareMagnitude(zero)==0)
+        if (n == 0 && a.compareMagnitude(zero) == 0)
         {
             throw new IllegalArgumentException("Undefined");
         }
@@ -574,7 +585,7 @@ public class Num implements Comparable<Num> {
      * @param ch the character whose precedence is needed
      * @return the precedence value
      */
-    static int Prec(String ch){
+    static int getPrecedence(String ch){
         switch(ch)
         {
             case "+":
@@ -619,7 +630,7 @@ public class Num implements Comparable<Num> {
                     operatorStack.pop();
                 }
             } else if(c.matches("[-+*/%^]")){
-                while (!operatorStack.isEmpty() && Prec(c) <= Prec(operatorStack.peek())){
+                while (!operatorStack.isEmpty() && getPrecedence(c) <= getPrecedence(operatorStack.peek())){
                     result[index++]= operatorStack.pop();
                 }
                 operatorStack.push(c);
@@ -698,7 +709,7 @@ public class Num implements Comparable<Num> {
         return result;
     }
 
-    /**
+       /**
      * A utility method which helps in subtraction of 2 Nums
      * @param x first input Num
      * @param y second input Num
@@ -810,6 +821,7 @@ public class Num implements Comparable<Num> {
     }
 
     // Return number to a string in base 10
+    //TODO Replace 2 by base
     public String toString() {
         StringBuilder resultBuiler = new StringBuilder();
         if (this.compareMagnitude(new Num(0)) == 0) {
@@ -826,8 +838,23 @@ public class Num implements Comparable<Num> {
         z.base = this.base;
         z.len = this.arr.length;
 
-        z = z.convertBase(10);
+        z = z.convertBase((int)defaultBase);
+
+        int lengthOfDigits = 0;
+        int lengthOfBase = 0;
+
         for (int i = z.arr.length - 1; i >= 0; i--) {
+
+            lengthOfDigits = String.valueOf(z.arr[i]).length();
+            lengthOfBase = String.valueOf(defaultBase-1).length();
+
+            if(lengthOfDigits < lengthOfBase && i != z.arr.length - 1)
+            {
+                for (int k = 0; k < lengthOfBase - lengthOfDigits; k++)
+                {
+                    resultBuiler.append("0");
+                }
+            }
             resultBuiler.append(z.arr[i]);
         }
         return resultBuiler.toString();
