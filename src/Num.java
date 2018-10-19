@@ -5,9 +5,6 @@ import java.util.Stack;
  * All the operations like +, -, ?, *, % and all the basic operations provided by a basic
  * calculator have been implemented.
  * All these operations can be performed in any provided @base
- *
- *
- * The members of this project are Ketki Mahajan, Ameya Kasar, Sunny Bangale, Shreyash Mane
  */
 
 public class Num implements Comparable<Num> {
@@ -175,7 +172,6 @@ public class Num implements Comparable<Num> {
     {
         long[] p1=new long[Math.max(a.len,b.len)];
         long[] p2=new long[Math.max(b.len,a.len)];
-
         boolean lessThanZero = false;
         long[] result = new long[Math.max(a.len,b.len)+1];
         if(b.isNegative && !a.isNegative)
@@ -366,10 +362,12 @@ public class Num implements Comparable<Num> {
 
         } else {
             while (left.compareMagnitude(right) == -1) {
+                //System.out.println("Divide");
                 // calculate mid
                 mid = by2(add(left, right));
 
                 // if y*mid is almost equal to x , return mid
+                //System.out.println(left + " : " + mid + " : " + right + " - ");
                 if ((product(divisor, mid).compareMagnitude(getAbsNum(a)) <= 0) && product(divisor, add(mid, one)).compareMagnitude(getAbsNum(a)) > 0) {
                     mid.isNegative = a.isNegative ^ b.isNegative;
                     mid.base = a.base;
@@ -463,7 +461,9 @@ public class Num implements Comparable<Num> {
         else if(this.isNegative && other.isNegative)
         {
             int flag = this.compareMagnitude(other);
+            //System.out.println(flag);
             if(flag == -1) {
+                //  System.out.println("OKAY");
                 return 1;
             }
             else if(flag == 1)
@@ -712,7 +712,93 @@ public class Num implements Comparable<Num> {
         return result;
     }
 
-       /**
+    public static void main(String[] args) {
+
+        Num x = new Num(10);
+        Num y = new Num(5);
+
+        Num a = add(x, y);
+        System.out.println("1. Addition: " + a.toString());a.printList();
+        System.out.println();
+
+
+        Num b = subtract(x, y);
+        System.out.println("2. Subtraction: " + b.toString());b.printList();
+        System.out.println();
+
+        Num c = product(x, y);
+        System.out.println("3. Product: " + c.toString());c.printList();
+        System.out.println();
+
+
+        try {
+            Num d = divide(x, y);
+            System.out.println("4. Division: " + d.toString());
+            d.printList();
+            System.out.println();
+        }catch(Exception g)
+        {
+            System.out.println("Undefined");
+            System.out.println();
+        }
+
+
+        try {
+            Num e = mod(x, y);
+            System.out.println("5. Modulo: " + e.toString());
+            e.printList();
+            System.out.println();
+        }catch(Exception h)
+        {
+            System.out.println("Undefined");
+            System.out.println();
+
+        }
+
+        try {
+            long n = 4;
+            Num f = power(x, n);
+            System.out.println("6. Power: " + f.toString());
+            f.printList();
+            System.out.println();
+        }catch(Exception f)
+        {
+            System.out.println("Negative numbers not allowed!");
+            System.out.println();
+
+        }
+
+
+        int g = x.compareTo(y);
+        System.out.println("7. Compare To: " + g);
+        System.out.println();
+
+        try {
+            Num h = squareRoot(x);
+            System.out.println("8. Square Root: " + h.toString());h.printList();
+            System.out.println();
+        }catch (Exception t){
+            System.out.println("Negative numbers not allowed!");
+            System.out.println();
+
+        }
+
+
+        Num i = by2(x);
+        System.out.println("9. By 2: " + i.toString());i.printList();
+        System.out.println();
+
+        String expr4[] = {"2", "+", "5"};
+        System.out.println("10. INfix "+ evaluateInfix(expr4));
+        System.out.println();
+
+
+        String expr5[] = {"2", "5", "+"};
+        System.out.println("11. POSTfix " + evaluatePostfix(expr5));
+        System.out.println();
+
+    }
+    /**
      * A utility method which helps in subtraction of 2 Nums
      * @param x first input Num
      * @param y second input Num
